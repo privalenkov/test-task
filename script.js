@@ -3,22 +3,16 @@
     const $logger = document.querySelector('#logger');
     const $cardList = document.querySelector('#card-list')
     const $elemntsArr = [];
-    let finished = false;
 
     function clickHandler (e) {
-        if (!finished) {
-            $btn.textContent = 'in progress';
-            $elemntsArr[0].style.setProperty('animation', null)
-            $elemntsArr[0].style.setProperty('animation', 'cardRotate 1s forwards')
-            log ('START')
-        } else {
-            $btn.textContent = 'START';
-            $elemntsArr.forEach((e) => {
-                e.style.setProperty('animation', 'initial')
-            })
-            log ('RESTART')
-            finished = false;
-        }
+        $elemntsArr.forEach((e) => {
+            e.style.setProperty('animation', 'initial')
+        })
+        $btn.textContent = 'in progress';
+        $btn.disabled = true;
+        $elemntsArr[0].style.setProperty('animation', null)
+        $elemntsArr[0].style.setProperty('animation', 'cardRotate 1s forwards')
+        log ('START')
     }
 
     function animStartHandler (e) {
@@ -31,8 +25,8 @@
     function animEndHandler (e) {
         log (`Cell ${e.target.textContent} Animation END`)
         if ($elemntsArr.length === +e.target.textContent) {
-            $btn.textContent = 'RESTART';
-            finished = true;
+            $btn.disabled = false;
+            $btn.textContent = 'START';
             log ('PROGRESS END')
             alert('success')
         }
@@ -57,7 +51,7 @@
 
 
     function init () {
-        createElements($cardList, 9)
+        createElements($cardList, 23)
         $btn.addEventListener('click', clickHandler);
     }
     init()
