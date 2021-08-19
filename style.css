@@ -32,8 +32,8 @@ body {
 .c-card__item {
     list-style: none;
     border-radius: 4px;
-    width: 160px;
-    height: 90px;
+    width: 168px;
+    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
