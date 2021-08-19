@@ -57,7 +57,7 @@
 
 
     function init () {
-        createElements($cardList, 24)
+        createElements($cardList, 9)
         $btn.addEventListener('click', clickHandler);
     }
     init()
