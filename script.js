@@ -2,14 +2,17 @@
     const $btn = document.querySelector('#btn');
     const $logger = document.querySelector('#logger');
     const $cardList = document.querySelector('#card-list')
-    const $elemntsArr = [];
+    const $cardCount = document.querySelector('#cards-count')
+    let $elemntsArr = [];
 
     function clickHandler (e) {
         $elemntsArr.forEach((e) => {
             e.style.setProperty('animation', 'initial')
         })
-        $btn.textContent = 'in progress';
+        $logger.value = ''
         $btn.disabled = true;
+        $cardCount.disabled = true;
+        $btn.textContent = 'in progress';
         $elemntsArr[0].style.setProperty('animation', null)
         $elemntsArr[0].style.setProperty('animation', 'cardRotate 1s forwards')
         log ('START')
@@ -26,6 +29,7 @@
         log (`Cell ${e.target.textContent} Animation END`)
         if ($elemntsArr.length === +e.target.textContent) {
             $btn.disabled = false;
+            $cardCount.disabled = false;
             $btn.textContent = 'START';
             log ('PROGRESS END')
             alert('success')
@@ -33,6 +37,12 @@
     }
 
     function createElements (container, count) {
+        if ($elemntsArr.length) {
+            $elemntsArr.forEach(e => {
+                e.parentNode.removeChild(e);
+            })
+            $elemntsArr = []
+        }
         for (let i = 1; i <= count; i++) {
             const $child = document.createElement('li')
             $child.innerHTML = `${i}`
@@ -51,7 +61,15 @@
 
 
     function init () {
-        createElements($cardList, 23)
+        $btn.disabled = true;
+        $cardCount.addEventListener('input', (e) => {
+            createElements($cardList, e.target.value)
+            if($elemntsArr.length) { 
+                $btn.disabled = false;
+            } else {
+                $btn.disabled = true;
+            }
+        })
         $btn.addEventListener('click', clickHandler);
     }
     init()
